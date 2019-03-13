@@ -1,0 +1,53 @@
+https://api.themoviedb.org/3/search/keyword?api_key=17224c9728950382b9867e4f42425047&query=marvel  #looks for the ID of a searchterm
+
+https://image.tmdb.org/t/p/w185/ #base URL for image request
+
+https://www.youtube.com/watch?v= base URL for youtube trailers
+
+#have a search bar next to it include a dropdown menu which determines what kind of search is being requested
+
+movie = Tmdb::Movie.trailers(550)
+puts  "https://www.youtube.com/watch?v=#{movie["youtube"][0]["source"]}" extracts trailer source and concatnates it with the base url
+
+
+
+@movie = Tmdb::Movie.images(120)
+puts "https://image.tmdb.org/t/p/original#{@movie['posters'][0]["file_path"]}" extracts poster file path anf concatnates it with the base URl
+
+
+#  def get_movie(movie_name)
+#     url = URI("https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=#{movie_name}&language=en-US&api_key=17224c9728950382b9867e4f42425047")
+
+#     # http = Net::HTTP.new(url.host, url.port)
+#     # http.use_ssl = false
+#     # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+#     # request = Net::HTTP::Get.new(url)
+    
+#     response = Net::HTTP.get(url)
+#     response = JSON.parse(response)
+#     results["title"]
+# end
+
+
+     
+    
+# pp get_movie("titanic")
+#  movie = Tmdb::Movie.detail(550)
+ 
+#  puts movie["title"]
+# @search = Tmdb::Search.new
+# @search.resource('movie') # determines type of resource
+# @search.query('terminator') # the query to search against
+# @search.fetch # makes request
+# puts movie = Tmdb::Movie.detail(24232) 
+
+
+
+ @search = Tmdb::Search.new
+@search.resource('keyword') # determines type of resource
+@search.query('space') # the query to search against
+@search.fetch # makes request
+pp @search.fetch      <<<< returns the IDs of search terms 
+
+@keyword = Tmdb::Keyword.detail(818)    @movies = Tmdb::Keyword.movies(818)  # enter keyword ID to fetch all relevant movies, on or the other
