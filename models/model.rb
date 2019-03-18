@@ -9,7 +9,7 @@ Tmdb::Api.key(ENV["API_KEY"])
 
 class Movie
     
-    attr_reader :movie_ID, :movie_backdrop, :movie_description, :movie_poster, :movie_name, :movie_poster, :movie_rating, :movie_title, :movie_release, :poster_links, :trailer_links, :backdrop_links
+    attr_reader :movie_ID, :movie_backdrop, :movie_description, :movie_poster, :movie_name, :movie_poster, :movie_rating, :movie_title, :movie_release, :poster_links, :trailer_links, :backdrop_links, :the_hash
     
     def initialize(movie_name, keyword_movie)
        @movie_name = movie_name 
@@ -24,6 +24,7 @@ class Movie
        @poster_links = []
        @trailer_links = []
        @backdrop_links = []
+       @the_hash = {}
     end
     
     def get_movie_detail_by_ID
@@ -121,9 +122,9 @@ end
         @movie_ID.each { |id|
         begin
         movie = Tmdb::Movie.trailers(id)
-        @trailer_links << "https://www.youtube.com/watch?v=#{movie["youtube"][0]["source"]}" #extracts trailer source and concatnates it with the base url
+        @trailer_links << "#{movie["youtube"][0]["source"]}" #extracts trailer source and concatnates it with the base url
         rescue
-        @trailer_links << "https://www.youtube.com/watch?v=Yp_LQDn0W04"
+        @trailer_links << "Yp_LQDn0W04"
             
         end
         }
@@ -140,6 +141,9 @@ end
         end
         }
     end
+    
+    
+    
     
 end
 
@@ -206,22 +210,25 @@ class Keyword
     
 end
 
-# titanic = Movie.new("titanic")
-# puts titanic.get_movie_detail_by_name
+# titanic = Movie.new("titanic",0)
+#  titanic.get_movie_detail_by_name
 # titanic.extract_n_fill
-# titanic.get_backdrop_links
-# puts titanic.backdrop_links
+# titanic.create_hash
+# pp titanic.the_hash
 
-cop = Keyword.new("cop")
-cop.get_keyword_ID
-cop.separate_keywords[0]["name"]
-cop.separate_keywords
-cop.requested_keyword
-cop.get_movie_names
+# cop = Keyword.new("space")
+# cop.get_keyword_ID
+# cop.separate_keywords[0]["name"]
+# cop.separate_keywords
+# cop.requested_keyword
+# cop.get_movie_names
  
- cop.keyword_movie_instance
- pp cop.movie_instances
-# puts cop.movie_instances
+#  cop.keyword_movie_instance
+# #  puts cop.movie_instances
+#  cop.movie_instances.each do |movie, detail|
+#     puts detail[2]
+#  end
+# puts cop.movie_instances["Avengers: Infinity War"][0]
 #   cop.keyword_movie_info
 
 
