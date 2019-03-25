@@ -1,20 +1,20 @@
 require 'uri'
 require 'net/http'
 require 'json'
-require 'themoviedb'
+require 'themoviedb' #ruby wrapper for TMDB
 require 'pp'
 require 'dotenv/load'
 
 Tmdb::Api.key(ENV["API_KEY"])
 
-class Movie
+class Movie #the movie class
     
     attr_reader :movie_ID, :movie_backdrop, :movie_description, :movie_poster, :movie_name, :movie_poster, :movie_rating, :movie_title, :movie_release, :poster_links, :trailer_links, :backdrop_links, :the_hash
     
-    def initialize(movie_name, keyword_movie)
+    def initialize(movie_name, keyword_movie)#when used for Movie, only the movie_name parameter is used. When used for Keyword, only the Keyword_movie parameter is used.
        @movie_name = movie_name 
        @keyword_movie = keyword_movie
-       @movie_ID = []
+       @movie_ID = []   #bunch of arrays and a hash to store data
        @movie_backdrop = []
        @movie_poster = []
        @movie_rating = []
@@ -33,7 +33,7 @@ class Movie
          movie = Tmdb::Movie.detail(@keyword_movie)
 
        
-          movie.each do |key, value|
+          movie.each do |key, value| #this function pulls out the necessary info that will be used in other function or show up in the View 
              if key == "title"
                 @movie_title << value
                 # puts value
@@ -72,7 +72,7 @@ def get_movie_detail_by_name
 end
 
 
-    def extract_n_fill
+    def extract_n_fill  #this function pulls out the necessary info that will be used in other function or show up in the View 
          movies = @search.fetch
 
        movies.each do |x|
@@ -113,7 +113,7 @@ end
     end
     
     def get_poster_links
-        @movie_poster.each do |path| #!!!!fix the links, some paths are mmssing
+        @movie_poster.each do |path| #
            @poster_links << "https://image.tmdb.org/t/p/original#{path}" 
         end
     end
@@ -122,7 +122,7 @@ end
         @movie_ID.each { |id|
         begin
         movie = Tmdb::Movie.trailers(id)
-        @trailer_links << "#{movie["youtube"][0]["source"]}" #extracts trailer source and concatnates it with the base url
+        @trailer_links << "#{movie["youtube"][0]["source"]}" #extracts trailer source 
         rescue
         @trailer_links << "Yp_LQDn0W04"
             
@@ -134,7 +134,7 @@ end
         @movie_ID.each { |id|
         begin
         movie = Tmdb::Movie.images(id)
-        @backdrop_links << "https://image.tmdb.org/t/p/original#{movie['backdrops'][0]["file_path"]}" #extracts trailer source and concatnates it with the base url
+        @backdrop_links << "https://image.tmdb.org/t/p/original#{movie['backdrops'][0]["file_path"]}" #extracts the backdrop source and concatnates it with the base url
         rescue
         @backdrop_links << "/Image_not_available.png"
             
@@ -178,7 +178,7 @@ class Keyword
       end
    end
    
-   def get_movie_names
+   def get_movie_names # returns the ID of a keyword that the user enters
     url = URI("https://api.themoviedb.org/3/keyword/#{@requested_keyword[@keyword]}/movies?include_adult=false&language=en-US&api_key=#{ENV["API_KEY"]}")
     response = Net::HTTP.get(url)
     response = JSON.parse(response)
@@ -188,14 +188,14 @@ class Keyword
    end
    
    def keyword_movie_instance
-       @fetched_movie_ID.each do |movie|
+       @fetched_movie_ID.each do |movie| #Movie class instance
          movie = Movie.new("fightclub",movie )
         movie.get_movie_detail_by_ID
         movie.get_backdrop_links
         movie.get_poster_links
         movie.get_trailer_links
         movie.backdrop_links
-        @movie_instances[movie.movie_title.join] = [ movie.poster_links.join, movie.trailer_links.join,  movie.backdrop_links.join,  movie.movie_ID.join, movie.movie_description.join,  movie.movie_rating.join,  movie.movie_release.join]
+        @movie_instances[movie.movie_title.join] = [ movie.poster_links.join, movie.trailer_links.join,  movie.backdrop_links.join,  movie.movie_ID.join, movie.movie_description.join,  movie.movie_rating.join,  movie.movie_release.join]#storing the data like this makes it easier to access later.
         
        end
         #create a def and extract all the info manually and put in a hash with arrays

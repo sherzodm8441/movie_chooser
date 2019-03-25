@@ -17,7 +17,7 @@ class ApplicationController < Sinatra::Base
   post '/result' do
     @hash = {}
     @type = params[:type]
-    if params[:type] == "movie"
+    if params[:type] == "movie"  # if the KMovie option is selected in the view, the below code runs
       @ui = Movie.new(params[:input1], 0)
       @ui.get_movie_detail_by_name
       @ui.extract_n_fill
@@ -30,7 +30,7 @@ class ApplicationController < Sinatra::Base
       
       i = 0
       
-      while i <= @ui.movie_title.length do
+      while i <= @ui.movie_title.length do #organizes the data in a way that is similar to how it is organized in @movie_instances
         @hash[@ui.movie_title[i]] = [ @ui.poster_links[i], @ui.trailer_links[i],  @ui.backdrop_links[i],  @ui.movie_ID[i], @ui.movie_description[i],  @ui.movie_rating[i],  @ui.movie_release[i]]
         i += 1
       end
@@ -38,7 +38,7 @@ class ApplicationController < Sinatra::Base
        
          
        
-    elsif params[:type] == "keyword"
+    elsif params[:type] == "keyword" # if the Keyword option is selected in the view, the below code runs
       @ui2 = Keyword.new(params[:input1])
       @ui2.get_keyword_ID
       @ui2.separate_keywords[0]["name"]

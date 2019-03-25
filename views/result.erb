@@ -165,7 +165,8 @@
   <body>
     
     <div >
-      <%if @type == "movie"%>
+      <!--checks for the option that is selected then runs the appropriate part of code based on that-->
+      <%if @type == "movie"%> 
         
   <div>
         <%@hash.each do |movie,detail|%>
