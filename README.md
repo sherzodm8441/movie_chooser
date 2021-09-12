@@ -1,12 +1,4 @@
-## Sinatra App Template
-
-Clone this repository to use as a template for your project.
-
-Make sure you `rm -rf .git` to break the connection with the template.
-
-To make a copy of the template, do `cp -r app-template apps/my-app-name` (then `git init`).
-
-
-Run `bundle install` to install gems.
-
-Then `shotgun -p $PORT -o $IP` to start the app.
+How to use the app:
+If you want to look up info about a movie, select "Movie" from the drop down menu and enter the name of the movie in the search bar and then press submit.
+If you want to find movies based on a keyword, select "Keyword" from the drop down menu and enter the name of the movie in the search bar and then press submit.
+You can play the movie trailer by pressing the button that says "Play Trailer". 
